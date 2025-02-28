@@ -1,0 +1,371 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" type="image/png" href="FAVICON.jpg">
+    <title>HONEY BLOOM</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            overflow-x: hidden;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #d4b8dd;
+        }
+
+        .navbar {
+            background:  #3b064c;
+            color: white;
+            padding: 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .cart {
+            background: white;
+            color: black;
+            padding: 5px 10px;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .grid {
+            display: grid;
+            gap: 10px;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            margin: 30px;
+        }
+
+        .card {
+            background: grey;
+            border-radius: 8px;
+            cursor: pointer;
+            height: 300px;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+            text-align: center;
+            /* padding: 10px; */
+            /* border: 2px solid #ccc; */
+            box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .card img {
+            width: 100%;
+            height: 80%;
+            object-fit: cover;
+            border-radius: 8px 8px 0 0;
+        }
+
+        .card p {
+            flex-grow: 1;
+            background-color:#701d8b;
+            font-size: 18px;
+            font-weight: bold;
+            height: 10%;
+            color: white;
+        }
+
+        .add-to-cart {
+            overflow: hidden;
+            width: 100%;
+            background-color: #c42af7;
+            color: white;
+            border: none;
+            /* padding: 12px; */
+            cursor: pointer;
+            border-radius:0 0 8px 8px;
+            font-size: 16px;
+            height: 15%;
+        }
+
+        .add-to-cart:hover {
+            background-color: #e64a19;
+        }
+
+        .full-screen {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: white;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+            z-index: 1000;
+            padding: 20px;
+            box-sizing: border-box;
+        }
+
+        .full-screen img,.full-screen .add-to-cart {
+            width: 100%;
+            max-width: 500px;
+            max-height: 60vh;
+            object-fit: cover;
+            border-radius: 8px;
+        }
+
+        .full-screen h2, .full-screen p, .full-screen .add-to-cart {
+            width: 40%;
+            max-width: 1000px;
+            text-align: center;
+            margin-top: 10px;
+            
+        }
+        .full-screen.add-to-cart{
+            border-radius: 10px;
+        }
+
+        .back-button, .left-arrow, .right-arrow {
+            position: absolute;
+            background: #333;
+            color: white;
+            padding: 10px;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .back-button {
+            top: 10px;
+            left: 10px;
+        }
+
+        .left-arrow {
+            top: 50%;
+            left: 10px;
+            transform: translateY(-50%);
+        }
+
+        .right-arrow {
+            top: 50%;
+            right: 10px;
+            transform: translateY(-50%);
+        }
+
+        @media (max-width: 768px) {
+            .grid {
+                grid-template-columns: repeat(2, 1fr);
+                margin: 10px;
+            }
+
+            .card {
+                height: 250px;
+            }
+
+            .full-screen img  {
+                max-width: 100%;
+                height: 100%;
+            }
+
+            .full-screen .add-to-cart {
+                font-size: 18px;
+                font-size: 18px;
+                width: 100%;
+                height: 10%;
+                border-radius: 10px;
+                
+            }
+            
+        }
+        a{
+            text-decoration: none;
+        }
+
+        /* Footer Styling */
+.footer {
+    background-color: #410356;
+    color: white;
+    padding: 30px 20px;
+}
+
+.footer-container {
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    max-width: 1200px;
+    margin: auto;
+    gap: 20px;
+}
+
+.footer-section {
+    flex: 1;
+    min-width: 250px;
+}
+
+.footer-section h2 {
+    font-size: 20px;
+    margin-bottom: 15px;
+}
+
+.footer-section p {
+    font-size: 14px;
+    line-height: 1.6;
+}
+
+.footer-section ul {
+    list-style: none;
+    padding: 0;
+}
+
+.footer-section ul li {
+    margin-bottom: 10px;
+}
+
+.footer-section ul li a {
+    text-decoration: none;
+    color: white;
+    transition: 0.3s;
+}
+
+.footer-section ul li a:hover {
+    color: #ffcc00; /* Highlight effect */
+}
+
+/* Footer Bottom */
+.footer-bottom {
+    text-align: center;
+    margin-top: 20px;
+    font-size: 14px;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .footer-container {
+        flex-direction: column;
+        text-align: center;
+    }
+}
+       
+    </style>
+</head>
+
+<body>
+    <div class="navbar">
+        <h2>HONEY BLOOM</h2>
+       <a href="cart.html"> <div class="cart" onclick="toggleCart()">Cart (<span id="cartCount">0</span>)</div></a>
+    </div>
+    <div class="grid" id="productGrid"></div>
+    <div class="full-screen" id="fullScreenView">
+        <div class="back-button" onclick="closeFullScreen()">Back</div>
+        <div class="left-arrow" onclick="prevProduct()">&#10094;</div>
+        <img id="fullScreenImage" src="" alt="Product Image">
+        <h2 id="fullScreenTitle"></h2>
+        <p id="fullScreenText"></p>
+        <button class="add-to-cart" onclick="addToCart()">Add to Cart</button>
+        <div class="right-arrow" onclick="nextProduct()">&#10095;</div>
+    </div>
+    <footer class="footer">
+        <div class="footer-container">
+            <div class="footer-section about">
+                <h2>Honeybloom</h2>
+                <p>Premium stationery essentials designed for students, professionals, and creatives. Experience quality and style in every product.</p>
+            </div>
+            <div class="footer-section links">
+                <h2>Quick Links</h2>
+                <ul>
+                    <li><a href="#">Home</a></li>
+                    <li><a href="#">Shop</a></li>
+                    <li><a href="#">About Us</a></li>
+                    <li><a href="#">Contact</a></li>
+                </ul>
+            </div>
+            <div class="footer-section contact">
+                <h2>Contact Us</h2>
+                <p>Email: support@honeybloom.com</p>
+                <p>Phone: +91 98765 43210</p>
+                <p>Address: Ghaziabad, India</p>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2025 Honeybloom. All Rights Reserved.</p>
+        </div>
+    </footer>
+ <script>
+            const products = [
+            { id: 0, image: "/images/eraser/images/product1.png", title: "Eraser 1", description: "Comfortable cotton shirt.", price: 999 },
+            { id: 1, image: "/images/eraser/images/product2.png", title: "Eraser 2", description: "Durable sports shoes.", price: 1999 },
+            { id: 2, image: "/images/eraser/images/product3.png", title: "Eraser  3", description: "Elegant and spacious.", price: 2499 },
+            { id: 3, image: "/images/eraser/images/product4.png", title: "Eraser 4 ", description: "Water-resistant wristwatch.", price: 4999 },
+            { id: 4, image: "/images/eraser/images/product5.png", title: "Eraser 5", description: "Comfortable cotton shirt.", price: 999 },
+            { id: 5, image: "/images/eraser/images/product6.png", title: "Eraser 6", description: "Durable sports shoes.", price: 1999 },
+            { id: 6, image: "/images/eraser/images/product7.png", title: "Eraser 7", description: "Elegant and spacious.", price: 2499 },
+            { id: 7, image: "/images/eraser/images/product8.png", title: "Eraser 8", description: "Water-resistant wristwatch.", price: 4999 },
+            { id: 8, image: "/images/eraser/images/product9.png", title: "Eraser 9", description: "Comfortable cotton shirt.", price: 999 },
+            { id: 9, image: "/images/eraser/images/product10.png", title: "Eraser 10", description: "Durable sports shoes.", price: 1999 },
+            { id: 10, image: "/images/eraser/images/product11.png", title: "Eraser 11", description: "Elegant and spacious.", price: 2499 },
+            { id: 11, image: "/images/eraser/images/product12.png", title: "Eraser 12", description: "Water-resistant wristwatch.", price: 4999 },
+            { id: 12, image: "/images/eraser/images/product13.png", title: "Eraser 13", description: "Comfortable cotton shirt.", price: 999 },
+            { id: 13, image: "/images/eraser/images/product14.png", title: "Eraser 14", description: "Durable sports shoes.", price: 1999 },
+            { id: 14, image: "/images/eraser/images/product15.png", title: "Eraser 15", description: "Elegant and spacious.", price: 2499 },
+            { id: 15, image: "/images/eraser/images/product16.png", title: "Eraser 16", description: "Water-resistant wristwatch.", price: 4999 },
+            { id: 16, image: "/images/eraser/images/product17.png", title: "Eraser 17", description: "Comfortable cotton shirt.", price: 999 },
+            { id: 17, image: "/images/eraser/images/product18.png", title: "Eraser 18", description: "Durable sports shoes.", price: 1999 },
+            { id: 18, image: "/images/eraser/images/product19.png", title: "Eraser 19", description: "Elegant and spacious.", price: 2499 },
+            { id: 19, image: "/images/eraser/images/product20.png", title: "Eraser 20", description: "Water-resistant wristwatch.", price: 4999 },
+            { id: 20, image: "/images/eraser/images/product21.png", title: "Eraser 21", description: "Comfortable cotton shirt.", price: 999 },
+            { id: 21, image: "/images/eraser/images/product22.png", title: "Eraser 22", description: "Durable sports shoes.", price: 1999 },
+            { id: 22, image: "/images/eraser/images/product23.png", title: "Eraser 23", description: "Elegant and spacious.", price: 2499 },
+            { id: 23, image: "/images/eraser/images/product24.png", title: "Eraser 24", description: "Water-resistant wristwatch.", price: 4999 },
+            { id: 24, image: "/images/eraser/images/product25.png", title: "Eraser 25", description: "Comfortable cotton shirt.", price: 999 },
+            { id: 25, image: "/images/eraser/images/product26.png", title: "Eraser 26", description: "Durable sports shoes.", price: 1999 },
+           
+
+            
+        ];
+        let currentProductIndex = 0;
+
+        function addToCart(index) {
+            let cart = JSON.parse(localStorage.getItem("cart")) || [];
+            const product = products[index];
+            let existingProduct = cart.find(item => item.id === product.id);
+            if (existingProduct) {
+                existingProduct.quantity += 1;
+            } else {
+                cart.push({ ...product, quantity: 1 });
+            }
+            localStorage.setItem("cart", JSON.stringify(cart));
+            updateCartCount();
+            alert("Item added to cart!");
+        }
+
+        function updateCartCount() {
+            let cart = JSON.parse(localStorage.getItem("cart")) || [];
+            document.getElementById("cartCount").innerText = cart.reduce((total, item) => total + item.quantity, 0);
+        }
+        updateCartCount();
+
+        function openFullScreen(index) {
+            currentProductIndex = index;
+            const product = products[currentProductIndex];
+            document.getElementById('fullScreenImage').src = product.image;
+            document.getElementById('fullScreenTitle').innerText = product.title;
+            document.getElementById('fullScreenText').innerText = product.description + "\nPrice: ₹" + product.price;
+            document.getElementById('fullScreenView').style.display = 'flex';
+        }
+
+        function closeFullScreen() { document.getElementById('fullScreenView').style.display = 'none'; }
+        function prevProduct() { currentProductIndex = (currentProductIndex - 1 + products.length) % products.length; openFullScreen(currentProductIndex); }
+        function nextProduct() { currentProductIndex = (currentProductIndex + 1) % products.length; openFullScreen(currentProductIndex); }
+
+        products.forEach((product, index) => {
+            const card = document.createElement('div');
+            card.className = 'card';
+            card.innerHTML = `<img src="${product.image}" alt="${product.title}" onclick="openFullScreen(${index})">
+                <p>${product.title}</p>
+                <p>Price: ₹${product.price}</p>
+                <button class="add-to-cart" onclick="addToCart(${index})">Add to Cart</button>`;
+            document.getElementById('productGrid').appendChild(card);
+        });
+
+ </script>
+</body>
+</html>

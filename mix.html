@@ -1,0 +1,398 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" type="image/png" href="FAVICON.jpg">
+    <title>HONEY BLOOM</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            overflow-x: hidden;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #d4b8dd;
+        }
+
+        .navbar {
+            background:  #3b064c;
+            color: white;
+            padding: 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .cart {
+            background: white;
+            color: black;
+            padding: 5px 10px;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .grid {
+            display: grid;
+            gap: 10px;
+            grid-template-columns: repeat(5, minmax(150px, 1fr));
+            margin: 30px;
+        }
+
+        .card {
+            background: grey;
+            border-radius: 8px;
+            cursor: pointer;
+            height: 300px;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+            text-align: center;
+            /* padding: 10px; */
+            /* border: 2px solid #ccc; */
+            box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .card img {
+            width: 100%;
+            height: 80%;
+            object-fit: cover;
+            border-radius: 8px 8px 0 0;
+        }
+
+        .card p {
+            flex-grow: 1;
+            background-color:#701d8b;
+            font-size: 18px;
+            font-weight: bold;
+            height: 10%;
+            color: white;
+            overflow: inherit;
+        }
+
+        .add-to-cart {
+            overflow: hidden;
+            width: 100%;
+            background-color: #c42af7;
+            color: white;
+            border: none;
+            /* padding: 12px; */
+            cursor: pointer;
+            border-radius:0 0 8px 8px;
+            font-size: 16px;
+            height: 15%;
+        }
+
+        .add-to-cart:hover {
+            background-color: #e64a19;
+        }
+
+        .full-screen {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: white;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+            z-index: 1000;
+            padding: 20px;
+            box-sizing: border-box;
+        }
+
+        .full-screen img,.full-screen .add-to-cart {
+            width: 100%;
+            max-width: 500px;
+            max-height: 60vh;
+            object-fit: cover;
+            border-radius: 8px;
+        }
+
+        .full-screen h2, .full-screen p, .full-screen .add-to-cart {
+            width: 40%;
+            max-width: 1000px;
+            text-align: center;
+            margin-top: 10px;
+            
+        }
+        .full-screen.add-to-cart{
+            border-radius: 10px;
+        }
+
+        .back-button, .left-arrow, .right-arrow {
+            position: absolute;
+            background: #333;
+            color: white;
+            padding: 10px;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .back-button {
+            top: 10px;
+            left: 10px;
+        }
+
+        .left-arrow {
+            top: 50%;
+            left: 10px;
+            transform: translateY(-50%);
+        }
+
+        .right-arrow {
+            top: 50%;
+            right: 10px;
+            transform: translateY(-50%);
+        }
+
+        @media (max-width: 768px) {
+            .grid {
+                grid-template-columns: repeat(2, 1fr);
+                margin: 10px;
+            }
+
+            .card {
+                height: 250px;
+            }
+
+            .full-screen img  {
+                max-width: 100%;
+                height: 100%;
+            }
+
+            .full-screen .add-to-cart {
+                font-size: 18px;
+                font-size: 18px;
+                width: 100%;
+                height: 10%;
+                border-radius: 10px;
+                
+            }
+            
+        }
+        a{
+            text-decoration: none;
+        }
+
+        /* Footer Styling */
+.footer {
+    background-color: #410356;
+    color: white;
+    padding: 30px 20px;
+}
+
+.footer-container {
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    max-width: 1200px;
+    margin: auto;
+    gap: 20px;
+}
+
+.footer-section {
+    flex: 1;
+    min-width: 250px;
+}
+
+.footer-section h2 {
+    font-size: 20px;
+    margin-bottom: 15px;
+}
+
+.footer-section p {
+    font-size: 14px;
+    line-height: 1.6;
+}
+
+.footer-section ul {
+    list-style: none;
+    padding: 0;
+}
+
+.footer-section ul li {
+    margin-bottom: 10px;
+}
+
+.footer-section ul li a {
+    text-decoration: none;
+    color: white;
+    transition: 0.3s;
+}
+
+.footer-section ul li a:hover {
+    color: #ffcc00; /* Highlight effect */
+}
+
+/* Footer Bottom */
+.footer-bottom {
+    text-align: center;
+    margin-top: 20px;
+    font-size: 14px;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .footer-container {
+        flex-direction: column;
+        text-align: center;
+    }
+}
+       
+    </style>
+</head>
+
+<body>
+    <div class="navbar">
+        <h2>HONEY BLOOM</h2>
+       <a href="cart.html"> <div class="cart" onclick="toggleCart()">Cart (<span id="cartCount">0</span>)</div></a>
+    </div>
+    <div class="grid" id="productGrid"></div>
+    <div class="full-screen" id="fullScreenView">
+        <div class="back-button" onclick="closeFullScreen()">Back</div>
+        <div class="left-arrow" onclick="prevProduct()">&#10094;</div>
+        <img id="fullScreenImage" src="" alt="Product Image">
+        <h2 id="fullScreenTitle"></h2>
+        <p id="fullScreenText"></p>
+        <button class="add-to-cart" onclick="addToCart()">Add to Cart</button>
+        <div class="right-arrow" onclick="nextProduct()">&#10095;</div>
+    </div>
+    <footer class="footer">
+        <div class="footer-container">
+            <div class="footer-section about">
+                <h2>Honeybloom</h2>
+                <p>Premium stationery essentials designed for students, professionals, and creatives. Experience quality and style in every product.</p>
+            </div>
+            <div class="footer-section links">
+                <h2>Quick Links</h2>
+                <ul>
+                    <li><a href="#">Home</a></li>
+                    <li><a href="#">Shop</a></li>
+                    <li><a href="#">About Us</a></li>
+                    <li><a href="#">Contact</a></li>
+                </ul>
+            </div>
+            <div class="footer-section contact">
+                <h2>Contact Us</h2>
+                <p>Email: honeybloom1111@gmail.com</p>
+                <p>Phone: +91 9910617521</p>
+                <p>Address: Delhi, India</p>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2025 Honeybloom. All Rights Reserved.</p>
+        </div>
+    </footer>
+ <script>
+          const products = [
+    { id: 0, image: "./images/mix/images/product 1.png", title: "Character name slip", description: "MOQ:5(40 sheets in one packet)", price: 300 },
+    { id: 1, image: "./images/mix/images/product 2.png", title: "Character name slip", description: "MOQ:5(40 sheets in one packet)", price: 300 },
+    { id: 2, image: "./images/mix/images/product 3.png", title: "Character name slip", description: "MOQ:5(40 sheets in one packet)", price: 300 },
+    { id: 3, image: "./images/mix/images/product 4.png", title: "Character name slip", description: "MOQ:5(40 sheets in one packet)", price: 300 },
+    { id: 4, image: "./images/mix/images/product 5.png", title: "plain name slip", description: "MOQ:5", price: 150 },
+    { id: 5, image: "./images/mix/images/product 6.png", title: "Character name slip", description: "MOQ:5", price: 150},
+    { id: 6, image: "./images/mix/images/product 7.png", title: "Character name slip", description: "MOQ:5", price: 149 },
+    { id: 7, image: "./images/mix/images/product 8.png", title: "Character name slip", description: "MOQ:5", price: 150 },
+    { id: 8, image: "./images/mix/images/product 9.png", title: "Unicorn hook ", description: "MOQ:1set(20)", price: 30 },
+    { id: 9, image: "./images/mix/images/product 10.png", title: "calculator ", description: "MOQ:3", price: 180 },
+    { id: 10, image: "./images/mix/images/product 11.png", title: "calculator", description: "MOQ:3", price: 220},
+    { id: 11, image: "./images/mix/images/product 12.png", title: "calculator", description: "MOQ:3", price: 220 },
+    { id: 12, image: "./images/mix/images/product 13.png", title: "calculator", description: "MOQ:3", price: 220 },
+    { id: 13, image: "./images/mix/images/product 14.png", title: "calculator", description: "MOQ:3", price: 180 },
+    { id: 14, image: "./images/mix/images/product 15.png", title: "calculator cactus ", description: "MOQ:5", price: 120 },
+    { id: 15, image: "./images/mix/images/product 16.png", title: "calculator", description: "MOQ:5", price: 220 },
+    { id: 16, image: "./images/mix/images/product 17.png", title: "calculator", description: "MOQ:5", price:280},
+    { id: 17, image: "./images/mix/images/product 18.png", title: "calculator", description: "MOQ:5", price: 250 },
+    { id: 18, image: "./images/mix/images/product 19.png", title: "Gluestick ", description: "MOQ:24", price: 32 },
+    { id: 19, image: "./images/mix/images/product 20.png", title: "Gluestick", description: "MOQ:24", price: 32 },
+    { id: 20, image: "./images/mix/images/product 21.png", title: "Gluestick", description: "MOQ:24", price: 32 },
+    { id: 21, image: "./images/mix/images/product 22.png", title: "Gluestick", description: "MOQ:24", price: 32 },
+    { id: 22, image: "./images/mix/images/product 23.png", title: "Gluestick", description: "MOQ:24", price: 32 },
+    { id: 23, image: "./images/mix/images/product 24.png", title: "Gluestick", description: "MOQ:24", price: 32 },
+    { id: 25, image: "./images/mix/images/product 26.png", title: "water glitter scale ", description: "MOQ:24", price: 60 },
+    { id: 26, image: "./images/mix/images/product 27.png", title: "water glitter scale", description: "MOQ:24", price: 60 },
+    { id: 27, image: "./images/mix/images/product 28.png", title: "Toothbrush", description: "MOQ:12", price: 80 },
+    { id: 28, image: "./images/mix/images/product 29.png", title: "watch band avenger", description: "MOQ:12", price:39},
+    { id: 29, image: "./images/mix/images/product 30.png", title: "watch band", description: "MOQ:12", price: 50 },
+    { id: 30, image: "./images/mix/images/product 31.png", title: "paper scissor", description: "MOQ:24", price:40 },
+    { id: 31, image: "./images/mix/images/product 32.png", title: "coorection tapes", description: "MOQ:12", price: 15 },
+    { id: 32, image: "./images/mix/images/product 33.png", title: "flower coorection tapes", description: "MOQ:12", price: 15 },
+    { id: 33, image: "./images/mix/images/product 34.png", title: "unicorn coorection tapes", description: "MOQ:12", price: 23 },
+    { id: 34, image: "./images/mix/images/product 35.png", title: "3d pen", description: "MOQ:3", price:400},
+    { id: 35, image: "./images/mix/images/product 36.png", title: "flexible scale", description: "MOQ:24", price: 13},
+    { id: 36, image: "./images/mix/images/product 37.png", title: "Transparent pouch 12.5*9cm", description: "MOQ:12 set(120 pcs)", price: 5},
+    { id: 37, image: "./images/mix/images/product 38.png", title: "Transparent pouch 16*13cm", description: "MOQ:6 set(60 pcs)", price: 9 },
+    { id: 38, image: "./images/mix/images/product 39.png", title: "Transparent pouch 29*20cm", description: "MOQ:5 set(50 pcs)", price: 24},
+    { id: 39, image: "./images/mix/images/product 40.png", title: "A6 Transparent pouch", description: "MOQ:5 set(50 pcs)", price: 14 },
+    { id: 40, image: "./images/mix/images/product 41.png", title: "Semi-Transparent pouch 29*21cm", description: "MOQ:4 set(40 pcs)", price: 21 },
+    { id: 41, image: "./images/mix/images/product 42.png", title: "A4 zip  pouch", description: "MOQ:1 set(12 pcs).", price: 32 },
+    { id: 42, image: "./images/mix/images/product 43.png", title: "A5 zip  pouch", description: "MOQ:1 set(12 pcs)", price: 25},
+    { id: 44, image: "./images/mix/images/product 45.png", title: "washing tapes", description: "MOQ: 4 set.", price: 200 },
+    { id: 45, image: "./images/mix/images/image copy 1.png", title: "Girl Glue Stick", description: "MOQ:1 set (30 pcs)", price: 14},
+    { id: 46, image: "./images/mix/images/image copy 2.png", title: "Kuromi Glue Stick", description: "MOQ:1 set (16 pcs)", price: 35 },
+    { id: 47, image: "./images/mix/images/image copy 3.png", title: "Panda Glue Stick", description: "MOQ:1 set (16 pcs)", price: 35 },
+    { id: 48, image: "./images/mix/images/image copy 4.png", title: "Hamburger Glue Stick", description: "MOQ:1 set (16 pcs)", price: 35 },
+    { id: 49, image: "./images/mix/images/image copy 5.png", title: "Sweet Heart Glue Stick", description: "MOQ:1 set (16 pcs)", price: 35 },
+    { id: 50, image: "./images/mix/images/image copy 6.png", title: "space piano folder", description: "MOQ:6", price: 77 },
+    { id: 51, image: "./images/mix/images/image copy 7.png", title: "space folder", description: "MOQ:4", price: 180},
+    { id: 52, image: "./images/mix/images/image copy 8.png", title: "folder space", description: "MOQ:4", price: 130 },
+    { id: 53, image: "./images/mix/images/image copy 9.png", title: "glue pen", description: "MOQ:48", price: 21},
+    { id: 54, image: "./images/mix/images/image copy 10.png", title: "glue gun", description: "MOQ:6", price: 110 },
+    { id: 55, image: "./images/mix/images/image copy 11.png", title: "glue gun button", description: "MOQ:6", price: 130 },
+    { id: 56, image: "./images/mix/images/image copy 12.png", title: "36 Gm Glue Stick", description: "MOQ:1 set (12 pcs)", price: 17 },
+ ];
+        let currentProductIndex = 0;
+
+        function addToCart(index) {
+            let cart = JSON.parse(localStorage.getItem("cart")) || [];
+            const product = products[index];
+            let existingProduct = cart.find(item => item.id === product.id);
+            if (existingProduct) {
+                existingProduct.quantity += 1;
+            } else {
+                cart.push({ ...product, quantity: 1 });
+            }
+            localStorage.setItem("cart", JSON.stringify(cart));
+            updateCartCount();
+            alert("Item added to cart!");
+        }
+
+        function updateCartCount() {
+            let cart = JSON.parse(localStorage.getItem("cart")) || [];
+            document.getElementById("cartCount").innerText = cart.reduce((total, item) => total + item.quantity, 0);
+        }
+        updateCartCount();
+
+        function openFullScreen(index) {
+            currentProductIndex = index;
+            const product = products[currentProductIndex];
+            document.getElementById('fullScreenImage').src = product.image;
+            document.getElementById('fullScreenTitle').innerText = product.title;
+            document.getElementById('fullScreenText').innerText = product.description + "\nPrice: ₹" + product.price;
+            document.getElementById('fullScreenView').style.display = 'flex';
+        }
+
+        function closeFullScreen() { document.getElementById('fullScreenView').style.display = 'none'; }
+        function prevProduct() { currentProductIndex = (currentProductIndex - 1 + products.length) % products.length; openFullScreen(currentProductIndex); }
+        function nextProduct() { currentProductIndex = (currentProductIndex + 1) % products.length; openFullScreen(currentProductIndex); }
+
+        products.forEach((product, index) => {
+            const card = document.createElement('div');
+            card.className = 'card';
+            card.innerHTML = `<img src="${product.image}" alt="${product.title}" onclick="openFullScreen(${index})">
+                <p>${product.title}</p>
+                <p>Price: ₹${product.price}</p>
+                <button class="add-to-cart" onclick="addToCart(${index})">Add to Cart</button>`;
+            document.getElementById('productGrid').appendChild(card);
+        });
+
+ </script>
+</body>
+</html>
