@@ -1,0 +1,534 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" type="image/png" href="FAVICON.jpg">
+    <title>Honey Bloom</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: Arial, sans-serif;
+        }
+     
+
+        body {
+            background-color:#9e5ab5;
+        }
+
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 30px;
+            background-color: #3b064c;
+            color: white;
+        }
+
+        .logo img {
+            height: 50px;
+        }
+
+        .nav-links a {
+            color: white;
+            text-decoration: none;
+            margin: 0 15px;
+        }
+
+
+       /* Slider Container */
+       .slider {
+            display: flex;
+            overflow: hidden;
+            width: 100%;
+            
+            height: 400px;
+            position: relative;
+            /* Keep it relative */
+            z-index: 1;
+            /* Lower than navbar */
+
+        }
+
+        .slides {
+            width: 100%;
+            display: flex;
+            transition: transform 0.5s ease;
+        }
+
+        .slides img {
+            width: max-content;
+            flex: 0 0 100%;
+            /* Ensures equal size for all images */
+            max-width: 100%;
+            /* Ensures responsiveness */
+        }
+
+        @media (max-width: 768px) {
+            .slider.slides img {
+                height: 200px;
+                /* Optional: Fixed height for mobile */
+            }
+        }
+    
+        
+        .container {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            /* 2 columns */
+            gap: 20px;
+            /* Space between banners */
+            padding: 20px;
+        }
+
+       
+      
+
+
+        .banner {
+            display: flex;
+            flex-direction: column;
+            height: 300px;
+            margin: 20px;
+            /* border: 5px solid black; */
+            overflow: hidden;
+            transition: transform 0.3s ease-in-out;
+            border-radius: 10px;
+            overflow: hidden;
+            
+        }
+/* Apply scale on hover */
+.banner:hover {
+    transform: scale(1.02);
+}
+
+        .banner-image {
+            width: 100%;
+            height: 90%;
+            /* Adjust this to control image proportion */
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            
+        }
+
+        .banner-text {
+            height: 10%;
+            /* Adjust to keep text section uniform */
+            width: 100%;
+            overflow: hidden;
+            padding: 10px;
+            background-color:#782493;
+            text-align: center;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            /* text-align: center; */
+            font-size: 2rem;
+            color: white;
+
+            /* margin-top: 10px; */
+        }
+        @media (max-width: 1024px) { 
+            /* Tablets */
+          
+    .banner {
+        max-width: 95vw;
+        
+    }
+    .banner-image {
+        height: 50vh;
+    }
+    .banner-text {
+        font-size: 1rem;
+        padding: 10px;
+    }
+}
+
+@media (max-width: 768px) { 
+    .body{
+        overflow-x: hidden;
+    }
+    .container {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr); /* 2 columns */
+         /* Adds space between banners */
+        padding: 0px 15px 0px 0px; /* Adds space around the box */
+    }
+
+    .banner {
+        width: 100%;  /* Ensures the banner fits the grid */
+        height: 30vh;  /* Maintain a fixed height */
+        margin: 5px;  /* Adds space around the box */
+        border-radius: 8px;
+        overflow: hidden;
+        box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1); /* Soft shadow effect */
+    }
+
+    .banner-image {
+        height: 80%;  /* 80% of the banner */
+        width: 100%;
+        background-size: cover;
+        background-position: center;
+    }
+
+    .banner-text {
+        height: 20%;  /* 20% of the banner */
+        font-size: 1rem;
+        padding: 5px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        text-align: center;
+        /* background-color: white; */
+        font-weight: bold;
+        /* border-top: 2px solid #ddd; Optional: adds separation line */
+    }
+}
+
+
+/* Footer Styling */
+.footer {
+    background-color: #410356;
+    color: white;
+    padding: 30px 20px;
+}
+
+.footer-container {
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    max-width: 1200px;
+    margin: auto;
+    gap: 20px;
+}
+
+.footer-section {
+    flex: 1;
+    min-width: 250px;
+}
+
+.footer-section h2 {
+    font-size: 20px;
+    margin-bottom: 15px;
+}
+
+.footer-section p {
+    font-size: 14px;
+    line-height: 1.6;
+}
+
+.footer-section ul {
+    list-style: none;
+    padding: 0;
+}
+
+.footer-section ul li {
+    margin-bottom: 10px;
+}
+
+.footer-section ul li a {
+    text-decoration: none;
+    color: white;
+    transition: 0.3s;
+}
+
+.footer-section ul li a:hover {
+    color: #ffcc00; /* Highlight effect */
+}
+
+/* Footer Bottom */
+.footer-bottom {
+    text-align: center;
+    margin-top: 20px;
+    font-size: 14px;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+   
+    .footer-container {
+        flex-direction: column;
+        text-align: center;
+
+    }
+}
+/* Remove blue color and underline from links */
+a {
+    text-decoration: none; /* Removes underline */
+    color: inherit; /* Inherits text color from parent */
+}
+
+/* Optional: Add hover effect */
+a:hover {
+    opacity: 0.9; /* Slight fade effect on hover */
+}
+
+      /* Line Bar with Moving Heading */
+      .line-bar {
+            width: 100%;
+            text-align: center;
+            position: relative;
+            padding: 15px 0;
+            background-color: #3b064c;
+            margin-top: 20px;
+        }
+
+        .line-bar::before {
+            content: "";
+            display: block;
+            width: 100%;
+            height: 3px;
+            background: white;
+            position: absolute;
+            top: 50%;
+            left: 0;
+            transform: translateY(-50%);
+        }
+
+        .line-bar h2 {
+            position: relative;
+            display: inline-block;
+            background: #3b064c;
+            color: white;
+            padding: 0 20px;
+            font-size: 24px;
+            font-weight: bold;
+            animation: moveText 5s linear infinite;
+        }
+
+        @keyframes moveText {
+            from {
+                transform: translateX(100%);
+            }
+            to {
+                transform: translateX(-100%);
+            }
+        }
+ @media (max-width: 480px) {
+        .line-bar h2 {
+            font-size: 16px;
+            animation: moveText 4s linear infinite;
+        }
+
+      
+    }
+    </style>
+</head>
+
+<body>
+
+    <header class="navbar">
+        <div class="logo">
+            <img src="FAVICON.jpg" alt="Logo">
+        </div>
+        <nav class="nav-links">
+            <a href="#">Home</a>
+            <a href="#">Products</a>
+            <a href="#">Contact</a>
+        </nav>
+    </header>
+
+    <div class="slider">
+        <div class="slides">
+            <img src="https:/images.pexels.com/photos/640781/pexels-photo-640781.jpeg?auto=compress&cs=tinysrgb&w=600" alt="Image 1">
+            <img src="https:/images.pexels.com/photos/50594/sea-bay-waterfront-beach-50594.jpeg?auto=compress&cs=tinysrgb&w=600"
+                alt="Image 2">
+            <img src="https:/images.pexels.com/photos/33109/fall-autumn-red-season.jpg?auto=compress&cs=tinysrgb&w=600"
+                alt="Image 3">
+        </div>
+    </div>
+
+ 
+    <!-- Line Bar with Moving Heading -->
+    <div class="line-bar">
+        <h2>Explore Our Exclusive Collection</h2>
+    </div>
+
+    <div class="container">
+        <a href="bags.html">
+            <div class="banner">
+                <div class="banner-image" style="background-image: url('images/bags/images/product11.png');"></div>
+                <div class="banner-text">Bags</div>
+            </div>
+        </a>
+
+        <a href="bookmark.html">
+            <div class="banner">
+                <div class="banner-image" style="background-image: url('images/bookmark/images/product\ 10.png');"></div>
+                <div class="banner-text">Bookmark</div>
+            </div>
+        </a>
+
+        <a href="bottles.html">
+            <div class="banner">
+                <div class="banner-image" style="background-image: url('images/bottles/images/image\ copy\ 10.png');"></div>
+                <div class="banner-text">Bottles</div>
+            </div>
+        </a>
+        <a href="diary.html">
+            <div class="banner">
+                <div class="banner-image" style="background-image: url(' images/diary/images/images/product\ 11.png');"></div>
+                <div class="banner-text">Diary</div>
+            </div>
+        </a>
+
+        <a href="eraser.html">
+            <div class="banner">
+                <div class="banner-image" style="background-image: url('images/eraser/images/product2.png');"></div>
+                <div class="banner-text">Eraser</div>
+            </div>
+        </a>
+
+        <a href="examboard.html">
+            <div class="banner">
+                <div class="banner-image" style="background-image: url('images/exam board/images/product3.png');"></div>
+                <div class="banner-text">Exam Board</div>
+            </div>
+        </a>
+
+        <a href="gift-set.html">
+            <div class="banner">
+                <div class="banner-image" style="background-image: url('images/exam board/images/product3.png');"></div>
+                <div class="banner-text">Gift Set</div>
+            </div>
+        </a>
+
+        <a href="highlighter.html">
+            <div class="banner">
+                <div class="banner-image" style="background-image: url('images/highlighter/images/product\ 5.png');"></div>
+                <div class="banner-text">Highlighter</div>
+            </div>
+        </a>
+
+        <a href="keychain.html">
+            <div class="banner">
+                <div class="banner-image" style="background-image: url('images/keychain/images/image\ copy\ 40.png');"></div>
+                <div class="banner-text">Key Chain</div>
+            </div>
+        </a>
+
+        <a href="lamps.html">
+            <div class="banner">
+                <div class="banner-image" style="background-image: url('images/lamps/images/images/image\ copy\ 10.png');"></div>
+                <div class="banner-text">Lamps</div>
+            </div>
+        </a>
+
+        <a href="lunch-box.html">
+            <div class="banner">
+                <div class="banner-image" style="background-image: url('images/lunch box/images/product\ 11.png');"></div>
+                <div class="banner-text">Lunch Box</div>
+            </div>
+        </a>
+
+        <a href="mix.html">
+            <div class="banner">
+                <div class="banner-image" style="background-image: url('images/mix/images/image\ copy\ 10.png');"></div>
+                <div class="banner-text">Mix</div>
+            </div>
+        </a>
+        <a href="papersoap.html">
+            <div class="banner">
+                <div class="banner-image" style="background-image: url('images/paper soap/images/product3.png');"></div>
+                <div class="banner-text">Paper Soap</div>
+            </div>
+        </a>
+
+        <a href="pen.html">
+            <div class="banner">
+                <div class="banner-image" style="background-image: url('images/pen/images/image\ copy\ 11.png');"></div>
+                <div class="banner-text">Pen</div>
+            </div>
+        </a>
+
+        <a href="pencil.html">
+            <div class="banner">
+                <div class="banner-image" style="background-image: url(' images/pencil/images/images/image\ copy\ 10.png');"></div>
+                <div class="banner-text">Pencil</div>
+            </div>
+        </a>
+        <a href="pencilpouch.html">
+            <div class="banner">
+                <div class="banner-image" style="background-image: url(' images/pencil_pouch/images/image\ copy\ 11.png');"></div>
+                <div class="banner-text">Pencil Pouch</div>
+            </div>
+        </a>
+
+        <a href="penstand.html">
+            <div class="banner">
+                <div class="banner-image" style="background-image: url(' images/penstand/images/product4.png');"></div>
+                <div class="banner-text">Penstand</div>
+            </div>
+        </a>
+
+        <a href="piggy-bank.html">
+            <div class="banner">
+                <div class="banner-image" style="background-image: url(' images/piggy bank/images/image\ copy\ 10.png');"></div>
+                <div class="banner-text">Piggy Bank</div>
+            </div>
+        </a>
+
+        <a href="sharpner.html">
+            <div class="banner">
+                <div class="banner-image" style="background-image: url(' images//sharpner/images/image\ copy\ 10.png');"></div>
+                <div class="banner-text">Sharpner</div>
+            </div>
+        </a>
+
+        <a href="utility-knife.html">
+            <div class="banner">
+                <div class="banner-image" style="background-image: url(' images/utility knife/images/product6.png');"></div>
+                <div class="banner-text">Utility Knife</div>
+            </div>
+        </a>
+    </div>
+    
+    <footer class="footer">
+        <div class="footer-container">
+            <div class="footer-section about">
+                <h2>Honeybloom</h2>
+                <p>Premium stationery essentials designed for students, professionals, and creatives. Experience quality and style in every product.</p>
+            </div>
+            <div class="footer-section links">
+                <h2>Quick Links</h2>
+                <ul>
+                    <li><a href="#">Home</a></li>
+                    <li><a href="#">Shop</a></li>
+                    <li><a href="#">About Us</a></li>
+                    <li><a href="#">Contact</a></li>
+                </ul>
+            </div>
+            <div class="footer-section contact">
+                <h2>Contact Us</h2>
+                <p>Email: honeybloom1111@gmail.com</p>
+                <p>Phone: +91 9910617521</p>
+                <p>Address: Delhi, India</p>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2025 Honeybloom. All Rights Reserved.</p>
+        </div>
+    </footer>
+    
+    <script>
+        const slides = document.querySelector('.slides');
+        const images = document.querySelectorAll('.slides img');
+        let currentIndex = 0;
+
+        function showNextSlide() {
+            currentIndex = (currentIndex + 1) % images.length; // Loop back to the first image
+            const offset = -currentIndex * 100; // Calculate the offset
+            slides.style.transform = `translateX(${offset}%)`; // Move the slides
+        }
+
+        // Change slide every 5 seconds (5000 milliseconds)
+        setInterval(showNextSlide, 5000);
+    </script>
+
+</body>
+
+</html>
